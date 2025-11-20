@@ -21,7 +21,7 @@
 <body>
 	<div class="container">
 		<h2>Welcome ${sessionScope.account.username}!</h2>
-		<p>This is the manager page.</p>
+		<p>This is the admin page.</p>
 			
 		<a href="${pageContext.request.contextPath}/logout" class="btn btn-danger mt-3">Log Out</a>
 	</div>
