@@ -16,4 +16,6 @@ public interface UserRepository {
 
 	boolean checkExistEmail(String email);
 
+	void updatePassword(String email, String newPassword);
+
 }

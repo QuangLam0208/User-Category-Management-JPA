@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
 		userRepo.insert(user);
 		return true;
 	}
+	
+	@Override
+	public void updatePassword(String email, String newPassword) {
+		userRepo.updatePassword(email, newPassword);
+	}
 }

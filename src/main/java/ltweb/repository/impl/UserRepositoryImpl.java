@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import ltweb.config.JPAConfig;
 import ltweb.entity.User;
@@ -67,4 +68,24 @@ public class UserRepositoryImpl implements UserRepository {
             enma.close();
         }
     }
+	
+	@Override
+	public void updatePassword(String email, String newPassword) {
+		EntityManager enma = JPAConfig.getEntityManager();
+		EntityTransaction trans = enma.getTransaction();
+		try {
+			trans.begin();
+			String jpql = "UPDATE User u SET u.password = :newPassword WHERE u.email = :email";
+			Query query = enma.createQuery(jpql);
+			query.setParameter("newPassword", newPassword);
+			query.setParameter("email", email);
+			query.executeUpdate();
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		} finally {
+			enma.close();
+		}
+	}
 }

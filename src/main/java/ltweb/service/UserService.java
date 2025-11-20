@@ -18,4 +18,6 @@ public interface UserService {
 
 	boolean checkExistEmail(String email);
 
+	void updatePassword(String email, String newPassword);
+
 }
