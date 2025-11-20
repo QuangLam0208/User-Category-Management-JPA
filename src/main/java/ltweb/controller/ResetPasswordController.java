@@ -18,7 +18,7 @@ public class ResetPasswordController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/views/reset_password.jsp").forward(req, resp);
+		req.getRequestDispatcher("/views/resetPassword.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class ResetPasswordController extends HttpServlet {
 		// Kiểm tra mật khẩu có khớp không
 		if (!password.equals(re_password)) {
 			req.setAttribute("alert", "Mật khẩu nhập lại không khớp!");
-			req.getRequestDispatcher("/views/reset_password.jsp").forward(req, resp);
+			req.getRequestDispatcher("/views/resetPassword.jsp").forward(req, resp);
 			return;
 		}
 		
