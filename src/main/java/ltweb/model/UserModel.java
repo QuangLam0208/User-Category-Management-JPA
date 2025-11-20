@@ -22,4 +22,12 @@ public class UserModel implements Serializable {
 	private String username;
 
 	private String password;
+	
+	private String avatar;
+	
+	private int roleid;
+	
+	private String phone;
+	
+	private String createddate;
 }
