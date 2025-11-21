@@ -16,10 +16,12 @@
                     <div class="row">
                         <div class="col-md-4 text-center mb-3">
                             <c:if test="${not empty sessionScope.account.avatar}">
-                                <img src="${pageContext.request.contextPath}/uploads/${sessionScope.account.avatar}" 
-                                     class="img-thumbnail rounded-circle" 
-                                     style="width: 150px; height: 150px; object-fit: cover;" 
-                                     alt="Avatar">
+                                <c:url value="/image?fname=${sessionScope.account.avatar}" var="imgUrl"></c:url>
+
+								<img src="${imgUrl}" 
+								     class="img-thumbnail rounded-circle" 
+								     style="width: 150px; height: 150px; object-fit: cover;" 
+								     alt="Avatar">
                             </c:if>
                             <c:if test="${empty sessionScope.account.avatar}">
                                 <img src="https://via.placeholder.com/150" 
@@ -33,12 +35,12 @@
 
                         <div class="col-md-8">
                             <div class="mb-3">
-                                <label class="form-label">Username (Không thể thay đổi)</label>
+                                <label class="form-label">Username</label>
                                 <input type="text" class="form-control" value="${sessionScope.account.username}" disabled>
                             </div>
                             
                             <div class="mb-3">
-                                <label class="form-label">Email (Không thể thay đổi)</label>
+                                <label class="form-label">Email</label>
                                 <input type="email" class="form-control" value="${sessionScope.account.email}" disabled>
                             </div>
 
