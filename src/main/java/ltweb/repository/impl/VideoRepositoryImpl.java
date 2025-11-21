@@ -82,7 +82,7 @@ public class VideoRepositoryImpl implements VideoRepository {
     @Override
     public List<Video> findByCategoryId(int categoryId) {
         EntityManager enma = JPAConfig.getEntityManager();
-        String jpql = "SELECT v FROM Video v WHERE v.category.id = :cateId"; // category.id (Entity Category dùng id)
+        String jpql = "SELECT v FROM Video v WHERE v.category.id = :cateId";
         TypedQuery<Video> query = enma.createQuery(jpql, Video.class);
         query.setParameter("cateId", categoryId);
         return query.getResultList();

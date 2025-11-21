@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ltweb.util.Constant;
 
-@WebServlet(urlPatterns = "/image") // URL pattern: /image?fname=...
+@WebServlet(urlPatterns = "/image")
 public class DownloadImageController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -27,17 +27,25 @@ public class DownloadImageController extends HttpServlet {
 		}
 
 		File file = new File(Constant.DIR, fileName);
-		
-		// Đặt content type (ví dụ: image/jpeg, image/png)
-		// Tạm thời để chung là image/jpeg
-		resp.setContentType("image/jpeg");
-		
+
 		if (file.exists()) {
+
+			String mimeType = getServletContext().getMimeType(file.getName());
+
+			if (mimeType == null) {
+				//mặc định là binary
+				mimeType = "application/octet-stream"; 
+			}
+
+			resp.setContentType(mimeType);
+
+			resp.setContentLength((int) file.length());
+
 			try (FileInputStream in = new FileInputStream(file)) {
 				IOUtils.copy(in, resp.getOutputStream());
 			}
+
 		} else {
-			// (Có thể trả về ảnh mặc định nếu không tìm thấy)
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found.");
 		}
 	}

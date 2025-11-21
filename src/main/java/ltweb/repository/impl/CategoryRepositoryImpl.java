@@ -78,4 +78,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         query.setParameter("name", "%" + name + "%");
         return query.getResultList();
     }
+    
+    @Override
+    public List<Category> findByUserId(int userId) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        String jpql = "SELECT c FROM Category c WHERE c.user.id = :userId";
+        TypedQuery<Category> query = enma.createQuery(jpql, Category.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
 }

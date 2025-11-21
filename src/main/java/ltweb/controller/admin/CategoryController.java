@@ -3,6 +3,7 @@ package ltweb.controller.admin;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -10,8 +11,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import ltweb.entity.Category;
+import ltweb.entity.User;
 import ltweb.service.CategoryService;
 import ltweb.service.impl.CategoryServiceImpl;
 import ltweb.util.Constant;
@@ -46,8 +49,18 @@ public class CategoryController extends HttpServlet {
 				e.printStackTrace();
 			}
 			resp.sendRedirect(req.getContextPath() + "/admin/category/list");
+			
 		} else {
-			req.setAttribute("cateList", categoryService.findAll());
+			List<Category> list = categoryService.findAll();
+            req.setAttribute("cateList", list);
+            
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("account");
+            if (user != null) {
+                List<Category> myList = categoryService.findByUserId(user.getId());
+                req.setAttribute("myCateList", myList);
+            }
+            
 			req.getRequestDispatcher("/views/admin/category-list.jsp").forward(req, resp);
 		}
 		
@@ -91,6 +104,10 @@ public class CategoryController extends HttpServlet {
 			category.setName(name);
 			category.setImages(imagePath);
 			category.setActive(1);
+			
+			HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("account");
+            category.setUser(user); // Gán User hiện tại là người tạo
 			
 			categoryService.insert(category);
 			resp.sendRedirect(req.getContextPath() + "/admin/category/list");

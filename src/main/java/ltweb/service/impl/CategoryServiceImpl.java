@@ -40,4 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryRepo.findByName(name);
 	}
 	
+	@Override
+	public List<Category> findByUserId(int userId) {
+		return categoryRepo.findByUserId(userId);
+	}
 }

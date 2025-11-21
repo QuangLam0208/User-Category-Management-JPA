@@ -18,4 +18,6 @@ public interface CategoryService {
 
 	void insert(Category category);
 
+	List<Category> findByUserId(int userId);
+
 }
