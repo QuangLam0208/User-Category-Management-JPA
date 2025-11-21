@@ -38,7 +38,7 @@
         <div class="tab-pane fade" id="my" role="tabpanel">
             <div class="card shadow-sm border-info">
                 <div class="card-header bg-info text-white">
-                    Danh sách do bạn tạo
+                    Lists you create
                 </div>
                 <div class="card-body p-0">
                     <c:set var="listToRender" value="${myCateList}" scope="request"/>

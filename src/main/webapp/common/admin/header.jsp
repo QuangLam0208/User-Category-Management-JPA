@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <nav class="navbar navbar-expand navbar-dark bg-dark topbar mb-4 static-top shadow">
 
@@ -38,9 +39,15 @@
                     <span class="me-2 d-none d-lg-inline text-white-600 small">${sessionScope.account.fullname}</span>
                     
                     <c:if test="${not empty sessionScope.account.images}">
-                        <c:url value="/image?fname=${sessionScope.account.images}" var="imgUrlAdmin"></c:url>
-                        <img class="img-profile rounded-circle" src="${imgUrlAdmin}" style="width: 32px; height: 32px; object-fit: cover;">
-                    </c:if>
+					    <c:set var="imagePath" value="${fn:replace(sessionScope.account.images, '\\\\', '/')}" />
+					    
+					    <c:url value="/image?fname=${imagePath}" var="imgUrlAdmin"></c:url>
+					    
+					    <img class="img-profile rounded-circle" 
+					         src="${imgUrlAdmin}" 
+					         style="width: 32px; height: 32px; object-fit: cover;"
+					         onerror="this.src='https://via.placeholder.com/32'"> 
+         			</c:if>
                     <c:if test="${empty sessionScope.account.images}">
                          <img class="img-profile rounded-circle" src="https://via.placeholder.com/32" style="width: 32px; height: 32px;">
                     </c:if>
@@ -48,12 +55,12 @@
                 
                 <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Hồ sơ cá nhân
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Personal Profile
                     </a></li>
                     
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="${pageContext.request.contextPath}/logout">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Đăng xuất
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Logout
                     </a></li>
                 </ul>
             </li>
