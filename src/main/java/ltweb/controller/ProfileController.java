@@ -16,7 +16,7 @@ import ltweb.service.UserService;
 import ltweb.service.impl.UserServiceImpl;
 import ltweb.util.Constant;
 
-@WebServlet(urlPatterns = { "/profile" })
+@WebServlet(urlPatterns = {"/profile", "/admin/profile", "/manager/profile"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
 		maxFileSize = 1024 * 1024 * 10,
 		maxRequestSize = 1024 * 1024 * 50)

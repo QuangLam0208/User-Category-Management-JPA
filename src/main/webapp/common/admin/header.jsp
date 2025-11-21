@@ -54,7 +54,7 @@
                 </a>
                 
                 <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/profile">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Personal Profile
                     </a></li>
                     
