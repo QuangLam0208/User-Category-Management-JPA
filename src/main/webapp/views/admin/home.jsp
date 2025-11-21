@@ -6,7 +6,7 @@
 <body>
     <div class="row mb-4">
         <div class="col-12">
-            <h2 class="text-center text-uppercase fw-bold text-primary">Bảng Điều Khiển Quản Trị</h2>
+            <h2 class="text-center text-uppercase fw-bold text-primary">Administration Control Panel</h2>
         </div>
     </div>
 
@@ -15,8 +15,8 @@
             <div class="card dashboard-card h-100 text-white bg-primary">
                 <div class="card-body text-center p-5">
                     <i class="fas fa-layer-group fa-3x mb-3"></i>
-                    <h4>Quản lý Danh Mục</h4>
-                    <a href="${pageContext.request.contextPath}/admin/category/list" class="btn btn-light mt-3">Truy cập</a>
+                    <h4>Category Management</h4>
+                    <a href="${pageContext.request.contextPath}/admin/category/list" class="btn btn-light mt-3">Access</a>
                 </div>
             </div>
         </div>
