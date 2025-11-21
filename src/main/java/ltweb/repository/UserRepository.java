@@ -20,7 +20,7 @@ public interface UserRepository {
 
 	List<User> findAll(int page, int pageSize);
 
-	void delete(int id);
+	void delete(int id) throws Exception;
 
 	void update(User user);
 

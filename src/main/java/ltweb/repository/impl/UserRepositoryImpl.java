@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
         EntityTransaction trans = enma.getTransaction();
         try {
             trans.begin();
-            enma.persist(user); // Hàm persist dùng để thêm mới trong JPA
+            enma.persist(user); // Hàm persist dùng để thêm mới
             trans.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,21 +47,22 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 	
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws Exception {
 		EntityManager enma = JPAConfig.getEntityManager();
 		EntityTransaction trans = enma.getTransaction();
 		try {
 			trans.begin();
 			User user = enma.find(User.class, id);
 			if (user != null) {
-				enma.remove(user); // Hàm remove dùng để xóa
+				enma.remove(user);
 			} else {
-				throw new Exception("User not found");
+				throw new Exception("Không tìm thấy người dùng để xóa");
 			}
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			trans.rollback();
+			throw e;
 		} finally {
 			enma.close();
 		}
@@ -104,6 +105,8 @@ public class UserRepositoryImpl implements UserRepository {
 			TypedQuery<User> query = emma.createQuery(jpql, User.class);
 			query.setParameter("username", username);
 			return query.getSingleResult();
+		} catch (jakarta.persistence.NoResultException e) {
+			return null; 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -152,6 +155,4 @@ public class UserRepositoryImpl implements UserRepository {
         query.setParameter("phone", phone);
         return !query.getResultList().isEmpty();
     }
-	
-	
 }
