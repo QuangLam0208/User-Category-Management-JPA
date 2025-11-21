@@ -1,6 +1,7 @@
 package ltweb.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,5 +32,5 @@ public class UserModel implements Serializable {
 	
 	private String phone;
 	
-	private String createddate;
+	private Date createddate;
 }
