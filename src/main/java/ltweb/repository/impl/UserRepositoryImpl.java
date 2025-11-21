@@ -13,6 +13,82 @@ import ltweb.repository.UserRepository;
 public class UserRepositoryImpl implements UserRepository {
 	
 	@Override
+    public void insert(User user) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        EntityTransaction trans = enma.getTransaction();
+        try {
+            trans.begin();
+            enma.persist(user); // Hàm persist dùng để thêm mới trong JPA
+            trans.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            trans.rollback();
+            throw e;
+        } finally {
+            enma.close();
+        }
+    }
+	
+	@Override
+	public void update(User user) {
+		EntityManager enma = JPAConfig.getEntityManager();
+		EntityTransaction trans = enma.getTransaction();
+		try {
+			trans.begin();
+			enma.merge(user); // Hàm merge dùng để cập nhật
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+			throw e;
+		} finally {
+			enma.close();
+		}
+	}
+	
+	@Override
+	public void delete(int id) {
+		EntityManager enma = JPAConfig.getEntityManager();
+		EntityTransaction trans = enma.getTransaction();
+		try {
+			trans.begin();
+			User user = enma.find(User.class, id);
+			if (user != null) {
+				enma.remove(user); // Hàm remove dùng để xóa
+			} else {
+				throw new Exception("User not found");
+			}
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		} finally {
+			enma.close();
+		}
+	}
+	
+	@Override
+	public void updatePassword(String email, String newPassword) {
+		EntityManager enma = JPAConfig.getEntityManager();
+		EntityTransaction trans = enma.getTransaction();
+		try {
+			trans.begin();
+			String jpql = "UPDATE User u SET u.password = :newPassword WHERE u.email = :email";
+			Query query = enma.createQuery(jpql);
+			query.setParameter("newPassword", newPassword);
+			query.setParameter("email", email);
+			query.executeUpdate();
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+			throw e;
+		} finally {
+			enma.close();
+		}
+	}
+	
+	@Override
 	public List<User> findAll() {
 		EntityManager emma = JPAConfig.getEntityManager();
 		String jpql = "Select c from User c";
@@ -35,6 +111,31 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 	
 	@Override
+	public User findById(int id) {
+		EntityManager emma = JPAConfig.getEntityManager();
+		return emma.find(User.class, id);
+	}
+	
+	@Override
+	public List<User> findAll(int page, int pageSize) {
+		EntityManager emma = JPAConfig.getEntityManager();
+		String jpql = "Select c from User c";
+		TypedQuery<User> query = emma.createQuery(jpql, User.class);
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
+	}
+	
+	@Override 
+	public boolean checkExistUsername(String username) {
+		EntityManager enma = JPAConfig.getEntityManager();
+		String jpql = "SELECT u FROM User u WHERE u.username = :username";
+		TypedQuery<User> query = enma.createQuery(jpql, User.class);
+		query.setParameter("username", username);
+		return !query.getResultList().isEmpty();
+	}
+	
+	@Override
     public boolean checkExistEmail(String email) {
         EntityManager enma = JPAConfig.getEntityManager();
         String jpql = "SELECT u FROM User u WHERE u.email = :email";
@@ -52,40 +153,5 @@ public class UserRepositoryImpl implements UserRepository {
         return !query.getResultList().isEmpty();
     }
 	
-	@Override
-    public void insert(User user) {
-        EntityManager enma = JPAConfig.getEntityManager();
-        EntityTransaction trans = enma.getTransaction();
-        try {
-            trans.begin();
-            enma.persist(user); // Hàm persist dùng để thêm mới trong JPA
-            trans.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            trans.rollback();
-            throw e;
-        } finally {
-            enma.close();
-        }
-    }
 	
-	@Override
-	public void updatePassword(String email, String newPassword) {
-		EntityManager enma = JPAConfig.getEntityManager();
-		EntityTransaction trans = enma.getTransaction();
-		try {
-			trans.begin();
-			String jpql = "UPDATE User u SET u.password = :newPassword WHERE u.email = :email";
-			Query query = enma.createQuery(jpql);
-			query.setParameter("newPassword", newPassword);
-			query.setParameter("email", email);
-			query.executeUpdate();
-			trans.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			trans.rollback();
-		} finally {
-			enma.close();
-		}
-	}
 }

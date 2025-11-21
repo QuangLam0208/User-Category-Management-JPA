@@ -40,10 +40,13 @@ public class User {
 	private String password;
 	
 	@Column(columnDefinition="NVARCHAR(255)")
-	private String avatar;
+	private String images;
 	
 	@Column
 	private int roleid;
+	
+	@Column
+	private int active;
 	
 	@Column(columnDefinition="VARCHAR(20)")
 	private String phone;

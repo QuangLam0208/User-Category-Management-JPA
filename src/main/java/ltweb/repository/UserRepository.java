@@ -18,4 +18,14 @@ public interface UserRepository {
 
 	void updatePassword(String email, String newPassword);
 
+	List<User> findAll(int page, int pageSize);
+
+	void delete(int id);
+
+	void update(User user);
+
+	boolean checkExistUsername(String username);
+
+	User findById(int id);
+
 }
