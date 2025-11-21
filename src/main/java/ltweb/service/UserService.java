@@ -20,4 +20,12 @@ public interface UserService {
 
 	void updatePassword(String email, String newPassword);
 
+	User findById(int id);
+
+	boolean checkExistUsername(String username);
+
+	void delete(int id) throws Exception;
+
+	void update(User user);
+
 }
