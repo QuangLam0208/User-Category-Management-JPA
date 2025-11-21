@@ -19,6 +19,8 @@ public class CategoryModel implements Serializable{
 	
 	private String images;
 	
+	private int active;
+	
 	private int userid;
 	
 }

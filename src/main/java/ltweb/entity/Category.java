@@ -34,6 +34,9 @@ public class Category {
 	@Column(columnDefinition="NVARCHAR(255)")
 	private String images;
 	
+	@Column
+	private int active;
+	
 	@ManyToOne
 	@JoinColumn(name = "userid")
 	private User user;
