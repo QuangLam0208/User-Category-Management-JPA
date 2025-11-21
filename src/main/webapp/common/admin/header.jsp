@@ -15,37 +15,19 @@
             <i class="fa fa-bars"></i>
         </button>
 
-        <form class="d-none d-sm-inline-block form-inline ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
         <ul class="navbar-nav ms-auto">
 
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="javascript:void(0)" style="cursor: default;">
                     <i class="fas fa-bell fa-fw"></i>
-                    <span class="badge bg-danger badge-counter">3+</span>
+                    <span class="badge bg-danger badge-counter">0</span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                    <li><h6 class="dropdown-header">Thông báo mới</h6></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="me-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div>
-                        <div><span class="small text-gray-500">12/12/2024</span><br/>Báo cáo tháng mới đã sẵn sàng!</div>
-                    </a></li>
-                </ul>
-            </li>
+                </li>
 
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="javascript:void(0)" style="cursor: default;">
                     <i class="fas fa-envelope fa-fw"></i>
-                    <span class="badge bg-warning badge-counter">7</span>
+                    <span class="badge bg-warning badge-counter">0</span>
                 </a>
             </li>
 
@@ -68,12 +50,7 @@
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Hồ sơ cá nhân
                     </a></li>
-                    <li><a class="dropdown-item" href="#">
-                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Cài đặt
-                    </a></li>
-                    <li><a class="dropdown-item" href="#">
-                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Nhật ký hoạt động
-                    </a></li>
+                    
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="${pageContext.request.contextPath}/logout">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Đăng xuất

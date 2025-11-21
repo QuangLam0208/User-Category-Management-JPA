@@ -40,12 +40,12 @@
 
                         <div class="col-md-8">
                             <div class="mb-3">
-                                <label class="form-label">Username (Không thể thay đổi)</label>
+                                <label class="form-label">Username</label>
                                 <input type="text" class="form-control" value="${sessionScope.account.username}" disabled>
                             </div>
                             
                             <div class="mb-3">
-                                <label class="form-label">Email (Không thể thay đổi)</label>
+                                <label class="form-label">Email</label>
                                 <input type="email" class="form-control" value="${sessionScope.account.email}" disabled>
                             </div>
 
