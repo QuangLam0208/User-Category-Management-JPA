@@ -11,36 +11,41 @@
                 <c:if test="${not empty message}">
                     <div class="alert alert-success">${message}</div>
                 </c:if>
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">${error}</div>
+                </c:if>
 
                 <form action="profile" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-4 text-center mb-3">
-                            <c:if test="${not empty sessionScope.account.avatar}">
-                                <c:url value="/image?fname=${sessionScope.account.avatar}" var="imgUrl"></c:url>
+                            <c:if test="${not empty sessionScope.account.images}">
+                                <c:url value="/image?fname=${sessionScope.account.images}" var="imgUrl"></c:url>
 
 								<img src="${imgUrl}" 
 								     class="img-thumbnail rounded-circle" 
 								     style="width: 150px; height: 150px; object-fit: cover;" 
 								     alt="Avatar">
                             </c:if>
-                            <c:if test="${empty sessionScope.account.avatar}">
+                            
+                            <c:if test="${empty sessionScope.account.images}">
                                 <img src="https://via.placeholder.com/150" 
                                      class="img-thumbnail rounded-circle" alt="Default Avatar">
                             </c:if>
+                            
                             <div class="mt-3">
-                                <label for="avatar" class="form-label">Đổi ảnh đại diện</label>
-                                <input type="file" class="form-control" name="avatar" id="avatar" accept="image/*">
+                                <label for="images" class="form-label">Đổi ảnh đại diện</label>
+                                <input type="file" class="form-control" name="images" id="images" accept="image/*">
                             </div>
                         </div>
 
                         <div class="col-md-8">
                             <div class="mb-3">
-                                <label class="form-label">Username</label>
+                                <label class="form-label">Username (Không thể thay đổi)</label>
                                 <input type="text" class="form-control" value="${sessionScope.account.username}" disabled>
                             </div>
                             
                             <div class="mb-3">
-                                <label class="form-label">Email</label>
+                                <label class="form-label">Email (Không thể thay đổi)</label>
                                 <input type="email" class="form-control" value="${sessionScope.account.email}" disabled>
                             </div>
 
