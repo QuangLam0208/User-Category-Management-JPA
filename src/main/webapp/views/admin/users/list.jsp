@@ -12,8 +12,10 @@
 
 	<c:forEach items="${list}" var="list">
 		
-		${list}<br>
-		
+		${list.id}<br>
+		${list.email}<br>
+		${list.fullName}<br>
+		${list.role}<br>
 		
 	</c:forEach>
 
