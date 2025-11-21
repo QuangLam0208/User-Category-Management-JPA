@@ -39,14 +39,17 @@ public class VideoRepositoryImpl implements VideoRepository {
     }
 
     @Override
-    public void delete(int videoId) throws Exception {
+    public void delete(int id) throws Exception {
         EntityManager enma = JPAConfig.getEntityManager();
         EntityTransaction trans = enma.getTransaction();
         try {
             trans.begin();
-            Video video = enma.find(Video.class, videoId);
-            if (video != null) enma.remove(video);
-            else throw new Exception("Không tìm thấy Video");
+            Video video = enma.find(Video.class, id);
+            if (video != null) {
+                enma.remove(video);
+            } else {
+                throw new Exception("Không tìm thấy Video");
+            }
             trans.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,9 +59,9 @@ public class VideoRepositoryImpl implements VideoRepository {
     }
 
     @Override
-    public Video findById(int videoId) {
+    public Video findById(int id) {
         EntityManager enma = JPAConfig.getEntityManager();
-        return enma.find(Video.class, videoId);
+        return enma.find(Video.class, id);
     }
 
     @Override
@@ -73,6 +76,15 @@ public class VideoRepositoryImpl implements VideoRepository {
         String jpql = "SELECT v FROM Video v WHERE v.title LIKE :title";
         TypedQuery<Video> query = enma.createQuery(jpql, Video.class);
         query.setParameter("title", "%" + title + "%");
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<Video> findByCategoryId(int categoryId) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        String jpql = "SELECT v FROM Video v WHERE v.category.id = :cateId"; // category.id (Entity Category dùng id)
+        TypedQuery<Video> query = enma.createQuery(jpql, Video.class);
+        query.setParameter("cateId", categoryId);
         return query.getResultList();
     }
 }

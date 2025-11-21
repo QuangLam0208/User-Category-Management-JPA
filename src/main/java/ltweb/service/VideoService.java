@@ -18,4 +18,6 @@ public interface VideoService {
 
 	void insert(Video video);
 
+	List<Video> findByCategoryId(int categoryId);
+
 }

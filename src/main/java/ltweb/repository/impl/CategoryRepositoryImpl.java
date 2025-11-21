@@ -45,8 +45,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         try {
             trans.begin();
             Category category = enma.find(Category.class, id);
-            if(category != null) enma.remove(category);
-            else throw new Exception("Không tìm thấy Category");
+            if(category != null) {
+                enma.remove(category);
+            } else {
+                throw new Exception("Không tìm thấy Category");
+            }
             trans.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +67,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public List<Category> findAll() {
         EntityManager enma = JPAConfig.getEntityManager();
-        return enma.createNamedQuery("Category.findAll", Category.class).getResultList();
+        return enma.createQuery("SELECT c FROM Category c", Category.class).getResultList();
     }
     
     @Override
