@@ -22,6 +22,7 @@
 	<persistence-unit name="dataSource">
 		<class>ltweb.entity.User</class> 
 		<class>ltweb.entity.Category</class>
+		<class>ltweb.entity.Video</class>
 		<properties>
 			<property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://PERSYNOMERCY;instanceName=QUANGLAM0608;databaseName=jpact4st6;trustServerCertificate=true" />
 			<property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
