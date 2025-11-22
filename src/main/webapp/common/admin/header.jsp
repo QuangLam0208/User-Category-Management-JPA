@@ -33,7 +33,7 @@
             <li class="nav-item mx-1">
                 <a class="nav-link" href="javascript:void(0)" style="cursor: default;">
                     <i class="fas fa-bell fa-fw"></i>
-                    <span class="badge bg-danger badge-counter">3+</span>
+                    <span class="badge bg-danger badge-counter">0</span>
                 </a>
             </li>
 
