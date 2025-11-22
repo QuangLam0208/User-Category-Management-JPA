@@ -2,14 +2,27 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
+<c:choose>
+    <c:when test="${sessionScope.account.roleid == 3}">
+        <c:set var="rolePrefix" value="/admin" />
+        <c:set var="panelName" value="Admin" />
+    </c:when>
+    <c:when test="${sessionScope.account.roleid == 2}">
+        <c:set var="rolePrefix" value="/manager" />
+        <c:set var="panelName" value="Manager" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="rolePrefix" value="/user" /> </c:otherwise>
+</c:choose>
+
 <nav class="navbar navbar-expand navbar-dark bg-dark topbar mb-4 static-top shadow">
 
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/admin/home">
+        <a class="navbar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}${rolePrefix}/home">
             <div class="sidebar-brand-icon rotate-n-15 me-2">
                 <i class="fas fa-user-shield fa-lg text-warning"></i>
             </div>
-            <div class="sidebar-brand-text mx-1">Admin<span class="text-warning">Panel</span></div>
+            <div class="sidebar-brand-text mx-1">${panelName}<span class="text-warning">Panel</span></div>
         </a>
 
         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -17,18 +30,10 @@
         </button>
 
         <ul class="navbar-nav ms-auto">
-
             <li class="nav-item mx-1">
                 <a class="nav-link" href="javascript:void(0)" style="cursor: default;">
                     <i class="fas fa-bell fa-fw"></i>
-                    <span class="badge bg-danger badge-counter">0</span>
-                </a>
-                </li>
-
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="javascript:void(0)" style="cursor: default;">
-                    <i class="fas fa-envelope fa-fw"></i>
-                    <span class="badge bg-warning badge-counter">0</span>
+                    <span class="badge bg-danger badge-counter">3+</span>
                 </a>
             </li>
 
@@ -40,13 +45,8 @@
                     
                     <c:if test="${not empty sessionScope.account.images}">
 					    <c:set var="imagePath" value="${fn:replace(sessionScope.account.images, '\\\\', '/')}" />
-					    
 					    <c:url value="/image?fname=${imagePath}" var="imgUrlAdmin"></c:url>
-					    
-					    <img class="img-profile rounded-circle" 
-					         src="${imgUrlAdmin}" 
-					         style="width: 32px; height: 32px; object-fit: cover;"
-					         onerror="this.src='https://via.placeholder.com/32'"> 
+					    <img class="img-profile rounded-circle" src="${imgUrlAdmin}" style="width: 32px; height: 32px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/32'"> 
          			</c:if>
                     <c:if test="${empty sessionScope.account.images}">
                          <img class="img-profile rounded-circle" src="https://via.placeholder.com/32" style="width: 32px; height: 32px;">
@@ -54,7 +54,7 @@
                 </a>
                 
                 <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/profile">
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}${rolePrefix}/profile">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Personal Profile
                     </a></li>
                     
@@ -64,7 +64,6 @@
                     </a></li>
                 </ul>
             </li>
-
         </ul>
     </div>
 </nav>

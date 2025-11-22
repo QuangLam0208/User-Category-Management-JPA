@@ -29,7 +29,7 @@ public class LogoutController extends HttpServlet {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("username")) {
 					cookie.setMaxAge(0); // Set = 0 để xóa cookie
-					cookie.setPath(req.getContextPath() + "/"); 
+					cookie.setPath(req.getContextPath()); 
 					resp.addCookie(cookie);
 					break;
 				}
@@ -42,7 +42,7 @@ public class LogoutController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		doGet(req, resp);
 	}
 
 }

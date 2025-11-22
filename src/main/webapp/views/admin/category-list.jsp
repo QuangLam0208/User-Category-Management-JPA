@@ -1,10 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+<c:choose>
+    <c:when test="${sessionScope.account.roleid == 3}">
+        <c:set var="rolePrefix" value="/admin" scope="request"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="rolePrefix" value="/user" scope="request"/>
+    </c:otherwise>
+</c:choose>
+
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-primary">Category Management</h2>
-        <a href="${pageContext.request.contextPath}/admin/category/add" class="btn btn-primary">
+        
+        <a href="${pageContext.request.contextPath}${rolePrefix}/category/add" class="btn btn-primary">
             <i class="fas fa-plus"></i> Add New Category
         </a>
     </div>
@@ -29,7 +39,6 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <c:set var="listToRender" value="${cateList}" scope="request"/>
-                    
                     <jsp:include page="/views/admin/fragments/cate-table.jsp" />
                 </div>
             </div>
@@ -38,11 +47,10 @@
         <div class="tab-pane fade" id="my" role="tabpanel">
             <div class="card shadow-sm border-info">
                 <div class="card-header bg-info text-white">
-                    Lists you create
+                    Lists you created
                 </div>
                 <div class="card-body p-0">
                     <c:set var="listToRender" value="${myCateList}" scope="request"/>
-                    
                     <jsp:include page="/views/admin/fragments/cate-table.jsp" />
                 </div>
             </div>

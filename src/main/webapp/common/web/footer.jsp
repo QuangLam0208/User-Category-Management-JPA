@@ -6,21 +6,21 @@
             
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 font-weight-bold text-warning">My Website</h5>
-                <p>Chúng tôi cung cấp các giải pháp công nghệ và sản phẩm chất lượng cao. Uy tín và tận tâm là phương châm hoạt động.</p>
+                <p>We provide high quality products and technology solutions.</p>
             </div>
 
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Sản phẩm</h5>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Danh mục</a></p>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Khuyến mãi</a></p>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Mới nhất</a></p>
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Product</h5>
+                <p><a href="#" class="text-white" style="text-decoration: none;">Category</a></p>
+                <p><a href="#" class="text-white" style="text-decoration: none;">Offer</a></p>
+                <p><a href="#" class="text-white" style="text-decoration: none;">Latest</a></p>
             </div>
 
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Liên hệ</h5>
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contact</h5>
                 <p><i class="fas fa-home mr-3"></i> 1 Võ Văn Ngân, Thủ Đức, TP.HCM</p>
-                <p><i class="fas fa-envelope mr-3"></i> contact@hcmute.edu.vn</p>
-                <p><i class="fas fa-phone mr-3"></i> + 84 234 567 88</p>
+                <p><i class="fas fa-envelope mr-3"></i> 23110121@student.hcmute.edu.vn</p>
+                <p><i class="fas fa-phone mr-3"></i> + 84 974976839</p>
             </div>
         </div>
 
@@ -28,9 +28,9 @@
 
         <div class="row align-items-center">
             <div class="col-md-7 col-lg-8">
-                <p> © 2025 Copyright:
+                <p> © 2025 
                     <a href="#" style="text-decoration: none;">
-                        <strong class="text-warning">NhomLTPTWeb</strong>
+                        <strong class="text-warning">FIT-HCMUTE</strong>
                     </a>
                 </p>
             </div>
