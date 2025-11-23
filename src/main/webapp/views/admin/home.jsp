@@ -3,7 +3,8 @@
 
 <div class="container mt-4">
     <div class="row mb-4">
-        <div class="col-12 text-center"> <h2 class="text-uppercase fw-bold text-primary">
+        <div class="col-12 text-center"> 
+            <h2 class="text-uppercase fw-bold text-primary">
                 <i class="fas fa-user-shield me-2"></i> Admin Dashboard
             </h2>
             <p class="text-muted">Welcome back admin.</p>
@@ -22,6 +23,22 @@
                     <p class="card-text text-muted">Manage all categories.</p>
                     
                     <a href="${pageContext.request.contextPath}/admin/category" class="btn btn-outline-primary mt-auto">
+                        <i class="fas fa-arrow-right me-1"></i> Access
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 border-warning dashboard-card">
+                <div class="card-body text-center p-4 d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="fas fa-video fa-4x text-warning"></i>
+                    </div>
+                    <h4 class="card-title text-warning">Video Management</h4>
+                    <p class="card-text text-muted">Manage all videos.</p>
+                    
+                    <a href="${pageContext.request.contextPath}/admin/video" class="btn btn-outline-warning mt-auto">
                         <i class="fas fa-arrow-right me-1"></i> Access
                     </a>
                 </div>
