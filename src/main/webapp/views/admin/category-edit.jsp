@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+
+<c:choose>
+    <c:when test="${sessionScope.account.roleid == 3}"><c:set var="rolePrefix" value="/admin" scope="request"/></c:when>
+    <c:when test="${sessionScope.account.roleid == 2}"><c:set var="rolePrefix" value="/manager" scope="request"/></c:when>
+    <c:otherwise><c:set var="rolePrefix" value="/user" scope="request"/></c:otherwise>
+</c:choose>
 
 <!DOCTYPE html>
 <html>
@@ -13,10 +20,8 @@
 <div class="container mt-5" style="max-width: 600px;">
 	<h2>Edit Category</h2>
 	
-	<c:url value="/admin/category/edit" var="edit"></c:url>
-	<form role="form" action="${edit}" method="post" enctype="multipart/form-data">
+	<form role="form" action="${pageContext.request.contextPath}${rolePrefix}/category/edit" method="post" enctype="multipart/form-data">
 		
-		<!-- Gửi ID của category đi -->
 		<input name="id" value="${category.id}" type="hidden">
 
 		<div class="mb-3">
@@ -26,8 +31,11 @@
 
 		<div class="mb-3">
 			<label class="form-label">Current image:</label><br>
-			<c:url value="/image?fname=${category.images.replace('\\\\','/')}" var="imgUrl"></c:url>
-			<img class="img-responsive" width="150px" src="${imgUrl}" alt="Ảnh danh mục">
+			<c:if test="${not empty category.images}">
+				<c:set var="imagePath" value="${fn:replace(category.images, '\\\\', '/')}" />
+				<c:url value="/image?fname=${imagePath}" var="imgUrl"></c:url>
+				<img class="img-responsive" width="150px" src="${imgUrl}" alt="Ảnh danh mục" onerror="this.style.display='none'">
+			</c:if>
 		</div>
 
 		<div class="mb-3">
@@ -36,7 +44,8 @@
 		</div>
 
 		<button type="submit" class="btn btn-success">Update</button>
-		<a href="${pageContext.request.contextPath}/admin/category/list" class="btn btn-secondary">Cancel</a>
+		
+		<a href="${pageContext.request.contextPath}${rolePrefix}/category" class="btn btn-secondary">Cancel</a>
 	</form>
 </div>
 
