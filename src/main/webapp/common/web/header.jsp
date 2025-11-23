@@ -208,7 +208,6 @@
         document.getElementById("searchOverlay").style.display = "none";
     }
     
-    // Đóng search khi nhấn Esc
     document.addEventListener('keydown', function(event) {
         if (event.key === "Escape") {
             closeSearch();
