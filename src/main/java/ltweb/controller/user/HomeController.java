@@ -17,8 +17,7 @@ import ltweb.service.impl.CategoryServiceImpl;
 public class HomeController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
-	// Gọi Service
+
 	CategoryService categoryService = new CategoryServiceImpl();
 	
 	@Override

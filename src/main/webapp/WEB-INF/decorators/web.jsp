@@ -26,9 +26,9 @@
 <body>
     <jsp:include page="/common/web/header.jsp"></jsp:include> 
 
-    <main class="container">
-        <sitemesh:write property="body"/>
-    </main>
+    <main class="container-fluid p-0">
+    	<sitemesh:write property="body"/>
+	</main>
 
     <jsp:include page="/common/web/footer.jsp"></jsp:include>
     

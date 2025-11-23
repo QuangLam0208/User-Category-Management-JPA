@@ -3,51 +3,87 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <style>
-    /* ... Copy đoạn style từ home.jsp qua đây hoặc để chung file .css ... */
-    .gallery-card { position: relative; overflow: hidden; cursor: pointer; margin-bottom: 24px; }
-    .gallery-image { width: 100%; height: 300px; object-fit: cover; transition: transform 0.5s; filter: brightness(0.9); }
-    .gallery-card:hover .gallery-image { transform: scale(1.1); filter: brightness(1); }
-    .gallery-overlay { position: absolute; bottom: 20px; width: 100%; text-align: center; z-index: 2; }
-    .gallery-title { color: white; font-family: 'Times New Roman', serif; font-size: 1.5rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-    .play-icon {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        font-size: 3rem; color: rgba(255,255,255,0.8); opacity: 0; transition: opacity 0.3s;
+
+    .product-card {
+        border: none;
+        background: transparent;
+        margin-bottom: 40px; /* Khoảng cách giữa các hàng */
+        transition: all 0.3s ease;
     }
-    .gallery-card:hover .play-icon { opacity: 1; }
+
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 350px; 
+        background-color: #f8f9fa; 
+        overflow: hidden; 
+        margin-bottom: 15px;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.6s ease;
+    }
+
+    .product-card:hover .product-image {
+        transform: scale(1.05);
+    }
+
+    .product-title {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1rem;
+        color: #333;
+        text-align: center;
+        margin: 0;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .product-card:hover .product-title {
+        color: #000;
+    }
+    
+    a.card-link {
+        text-decoration: none;
+        color: inherit;
+    }
 </style>
 
 <div class="container mt-5">
-    <div class="mb-4 text-center">
-        <h2 style="font-family: 'Times New Roman', serif;">
-            <span class="text-primary">${category.name}</span>
-        </h2>
-        <a href="${pageContext.request.contextPath}/user/home" class="btn btn-outline-secondary btn-sm mt-2">
-            <i class="fas fa-arrow-left"></i> Back
+    <div class="text-center mb-5">
+        <h2 style="font-family: serif; letter-spacing: 2px;">${category.name}</h2>
+        <a href="${pageContext.request.contextPath}/user/home" class="text-secondary text-decoration-none small">
+            <i class="fas fa-arrow-left"></i> Back to Collections
         </a>
     </div>
 
-    <div class="row">
+    <div class="row justify-content-center">
+        
         <c:if test="${empty videos}">
-            <p class="text-center text-muted">There are no videos in this category yet.</p>
+            <p class="text-center text-muted">There are no videos in this collection.</p>
         </c:if>
 
         <c:forEach items="${videos}" var="v">
-            <div class="col-md-4 col-sm-6">
-                <a href="#" onclick="playUserVideo('${v.title}', '${v.poster}', '${v.id}')">
-                    <div class="gallery-card shadow">
-                        <c:if test="${not empty v.poster}">
-                            <c:set var="posterPath" value="${fn:replace(v.poster, '\\\\', '/')}" />
-                            <c:url value="/image?fname=${posterPath}" var="imgUrl"/>
-                            <img src="${imgUrl}" class="gallery-image" alt="${v.title}" onerror="this.src='https://via.placeholder.com/400x300'">
-                        </c:if>
-                        
-                        <i class="fas fa-play-circle play-icon"></i>
-
-                        <div class="gallery-overlay">
-                            <h4 class="gallery-title">${v.title}</h4>
+            <div class="col-md-3 col-sm-6"> <a href="#" class="card-link" onclick="alert('Xem video: ${v.title}')"> <div class="product-card">
+                        <div class="image-container">
+                            <c:if test="${not empty v.poster}">
+                                <c:set var="posterPath" value="${fn:replace(v.poster, '\\\\', '/')}" />
+                                <c:url value="/image?fname=${posterPath}" var="imgUrl"/>
+                                <img src="${imgUrl}" class="product-image" alt="${v.title}" 
+                                     onerror="this.src='https://via.placeholder.com/300x400?text=No+Image'">
+                            </c:if>
+                            <c:if test="${empty v.poster}">
+                                <img src="https://via.placeholder.com/300x400?text=No+Image" class="product-image">
+                            </c:if>
                         </div>
+
+                        <h5 class="product-title">${v.title}</h5>
                     </div>
                 </a>
+                
             </div>
         </c:forEach>
     </div>
