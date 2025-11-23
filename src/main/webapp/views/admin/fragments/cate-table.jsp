@@ -15,7 +15,7 @@
                 <th>Name</th>
                 <th>Creator</th>
                 <th>Status</th>
-                <th>Act</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>

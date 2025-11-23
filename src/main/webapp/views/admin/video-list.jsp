@@ -122,9 +122,17 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 
-                                <a href="${pageContext.request.contextPath}${rolePrefix}/video/delete?id=${v.id}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa video: ${v.title}?')" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                <c:url var="deleteUrl" value="${rolePrefix}/video/delete">
+							        <c:param name="id" value="${v.id}"/>
+							        <c:if test="${not empty selectedCategory}">
+							            <c:param name="categoryId" value="${selectedCategory.id}"/>
+							        </c:if>
+							    </c:url>
+							
+							    <a href="${deleteUrl}" class="btn btn-danger btn-sm" 
+							       onclick="return confirm('Bạn có chắc muốn xóa video: ${v.title}?')" title="Xóa">
+							        <i class="fas fa-trash"></i>
+							    </a>
                             </td>
                         </tr>
                     </c:forEach>

@@ -35,16 +35,28 @@ public class VideoController extends HttpServlet {
 
 		if (url.contains("video/add")) {
 			req.setAttribute("categories", categoryService.findAll());
+			
+			// Lấy ID Category từ URL để truyền sang View (giúp tự chọn dropdown & nút Cancel)
+			String preCateId = req.getParameter("categoryId");
+			if (preCateId != null) {
+				req.setAttribute("preCateId", preCateId);
+			}
+			
 			req.getRequestDispatcher("/views/admin/video-add.jsp").forward(req, resp);
 			
 		} else if (url.contains("video/edit")) {
-			int id = Integer.parseInt(req.getParameter("id"));
-			Video video = videoService.findById(id);
-			req.setAttribute("video", video);
-			req.setAttribute("categories", categoryService.findAll());
-			req.getRequestDispatcher("/views/admin/video-edit.jsp").forward(req, resp);
+			try {
+				int id = Integer.parseInt(req.getParameter("id"));
+				Video video = videoService.findById(id);
+				req.setAttribute("video", video);
+				req.setAttribute("categories", categoryService.findAll());
+				req.getRequestDispatcher("/views/admin/video-edit.jsp").forward(req, resp);
+			} catch (Exception e) {
+				resp.sendRedirect(req.getContextPath() + "/manager/video");
+			}
 			
 		} else if (url.contains("video/delete")) {
+
 			try {
 				int id = Integer.parseInt(req.getParameter("id"));
 				videoService.delete(id);
@@ -52,28 +64,41 @@ public class VideoController extends HttpServlet {
 			} catch (Exception e) {
 				req.getSession().setAttribute("error", "Xóa thất bại: " + e.getMessage());
 			}
-			resp.sendRedirect(req.getContextPath() + "/manager/video");
+			
+			String rolePrefix = req.getRequestURI().contains("/manager/") ? "/manager" : "/admin";
+			String cateId = req.getParameter("categoryId");
+			if (cateId != null && !cateId.isEmpty()) {
+		        // nếu xóa khi đang ở trong danh mục -> quay lại danh mục đó
+		        resp.sendRedirect(req.getContextPath() + rolePrefix + "/video?categoryId=" + cateId);
+		    } else {
+		        // nếu xóa ở trang tất cả -> quay lại trang tất cả
+		        resp.sendRedirect(req.getContextPath() + rolePrefix + "/video");
+		    }
 			
 		} else {
+			
 			String categoryIdStr = req.getParameter("categoryId");
 			String keyword = req.getParameter("keyword");
 			
 			List<Video> list;
 			
+			// Chỉ ép kiểu khi chuỗi khác null và không rỗng
 			if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
-				int cateId = Integer.parseInt(categoryIdStr);
-				list = videoService.findByCategoryId(cateId);
-				Category cate = categoryService.findById(cateId);
-				req.setAttribute("selectedCategory", cate);
-				
-			} else if (keyword != null && !keyword.isEmpty()) { // <--- ĐÃ SỬA: Thêm check null ở đây
+				try {
+					int cateId = Integer.parseInt(categoryIdStr);
+					list = videoService.findByCategoryId(cateId);
+					Category cate = categoryService.findById(cateId);
+					req.setAttribute("selectedCategory", cate);
+				} catch (NumberFormatException e) {
+					list = videoService.findAll();
+				}
+			} else if (keyword != null && !keyword.isEmpty()) {
 				list = videoService.findByTitle(keyword);
 			} else {
 				list = videoService.findAll();
 			}
 			
 			req.setAttribute("videos", list);
-			
 			req.getRequestDispatcher("/views/admin/video-list.jsp").forward(req, resp);
 		}
 	}
@@ -119,7 +144,15 @@ public class VideoController extends HttpServlet {
 			}
 
 			videoService.insert(video);
-			resp.sendRedirect(req.getContextPath() + "/manager/video");
+			
+			// Redirect fromCateId
+			String fromCateId = req.getParameter("fromCateId");
+			if (fromCateId != null && !fromCateId.isEmpty()) {
+				resp.sendRedirect(req.getContextPath() + "/manager/video?categoryId=" + fromCateId);
+			} else {
+				resp.sendRedirect(req.getContextPath() + "/manager/video");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -148,7 +181,14 @@ public class VideoController extends HttpServlet {
 			}
 			
 			videoService.update(video);
-			resp.sendRedirect(req.getContextPath() + "/manager/video");
+			
+			//Redirect cho Update
+			String fromCateId = req.getParameter("fromCateId");
+			if (fromCateId != null && !fromCateId.isEmpty()) {
+				resp.sendRedirect(req.getContextPath() + "/manager/video?categoryId=" + fromCateId);
+			} else {
+				resp.sendRedirect(req.getContextPath() + "/manager/video");
+			}
 			
 		} catch (Exception e) { e.printStackTrace(); }
 	}

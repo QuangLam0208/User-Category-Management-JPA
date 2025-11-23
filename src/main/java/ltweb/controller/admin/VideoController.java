@@ -64,7 +64,17 @@ public class VideoController extends HttpServlet {
 			} catch (Exception e) {
 				req.getSession().setAttribute("error", "Xóa thất bại: " + e.getMessage());
 			}
-			resp.sendRedirect(req.getContextPath() + "/admin/video");
+			
+			String rolePrefix = req.getRequestURI().contains("/manager/") ? "/manager" : "/admin";
+			String cateId = req.getParameter("categoryId");
+			if (cateId != null && !cateId.isEmpty()) {
+		        // nếu xóa khi đang ở trong danh mục -> quay lại danh mục đó
+		        resp.sendRedirect(req.getContextPath() + rolePrefix + "/video?categoryId=" + cateId);
+		    } else {
+		        // nếu xóa ở trang tất cả -> quay lại trang tất cả
+		        resp.sendRedirect(req.getContextPath() + rolePrefix + "/video");
+		    }
+			
 			
 		} else {
 			
