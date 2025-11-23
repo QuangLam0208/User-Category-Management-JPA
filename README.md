@@ -91,7 +91,6 @@ Khi server khởi động lần đầu, hệ thống sẽ tự động tạo 2 t
 ## 📂 Cấu trúc dự án
 
 ````
-
 src/main/java
 ├── ltweb.config       \# Cấu hình JPA, DatabaseInitializer
 ├── ltweb.controller   \# Servlet Controllers (Admin, Manager, User)
@@ -108,8 +107,7 @@ src/main/webapp
 │    ├── decorators    \# Layouts (admin.jsp, web.jsp)
 │    ├── sitemesh3.xml \# Cấu hình layout
 │    └── web.xml       \# Cấu hình Servlet/Filter
-
-```
+````
 
 ## 🖼️ Screenshots
 
