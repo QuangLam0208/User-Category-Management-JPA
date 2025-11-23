@@ -52,7 +52,8 @@ public class VideoController extends HttpServlet {
 				req.setAttribute("categories", categoryService.findAll());
 				req.getRequestDispatcher("/views/admin/video-edit.jsp").forward(req, resp);
 			} catch (Exception e) {
-				resp.sendRedirect(req.getContextPath() + "/admin/video");
+				String rolePrefix = req.getRequestURI().contains("/manager/") ? "/manager" : "/admin";
+				resp.sendRedirect(req.getContextPath() + rolePrefix + "/video");
 			}
 			
 		} else if (url.contains("video/delete")) {
@@ -74,7 +75,7 @@ public class VideoController extends HttpServlet {
 		        // nếu xóa ở trang tất cả -> quay lại trang tất cả
 		        resp.sendRedirect(req.getContextPath() + rolePrefix + "/video");
 		    }
-			
+			return;
 			
 		} else {
 			

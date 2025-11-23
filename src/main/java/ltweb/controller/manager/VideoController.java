@@ -10,8 +10,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import ltweb.entity.Category;
+import ltweb.entity.User;
 import ltweb.entity.Video;
 import ltweb.service.CategoryService;
 import ltweb.service.VideoService;
@@ -32,9 +34,14 @@ public class VideoController extends HttpServlet {
 		String url = req.getRequestURI();
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
+		
+		// Lấy thông tin Manager đang đăng nhập
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("account");
+        int managerId = user.getId(); // Lấy ID để lọc dữ liệu
 
 		if (url.contains("video/add")) {
-			req.setAttribute("categories", categoryService.findAll());
+			req.setAttribute("categories", categoryService.findByUserId(managerId));
 			
 			// Lấy ID Category từ URL để truyền sang View (giúp tự chọn dropdown & nút Cancel)
 			String preCateId = req.getParameter("categoryId");
@@ -52,7 +59,8 @@ public class VideoController extends HttpServlet {
 				req.setAttribute("categories", categoryService.findAll());
 				req.getRequestDispatcher("/views/admin/video-edit.jsp").forward(req, resp);
 			} catch (Exception e) {
-				resp.sendRedirect(req.getContextPath() + "/manager/video");
+				String rolePrefix = req.getRequestURI().contains("/manager/") ? "/manager" : "/admin";
+				resp.sendRedirect(req.getContextPath() + rolePrefix + "/video");
 			}
 			
 		} else if (url.contains("video/delete")) {
@@ -74,6 +82,7 @@ public class VideoController extends HttpServlet {
 		        // nếu xóa ở trang tất cả -> quay lại trang tất cả
 		        resp.sendRedirect(req.getContextPath() + rolePrefix + "/video");
 		    }
+			return;
 			
 		} else {
 			
@@ -101,22 +110,18 @@ public class VideoController extends HttpServlet {
 		            }
 		            
 		        } catch (NumberFormatException e) {
-		            // id lỗi -> tìm kiếm toàn cục
-		            if (keyword != null && !keyword.isEmpty()) {
-		                list = videoService.findByTitle(keyword);
-		            } else {
-		                list = videoService.findAll();
-		            }
+		            // id lỗi -> về danh sách mặc định của Manager
+		        	list = videoService.findByManagerId(managerId);
 		        }
 		    } 
-		    // ko lọc category -> tìm kiếm toàn cục
-		    else {
-		        if (keyword != null && !keyword.isEmpty()) {
-		            list = videoService.findByTitle(keyword);
-		        } else {
-		            list = videoService.findAll();
-		        }
-		    }
+		    // trong phạm vi các Category của Manager
+		    else if (keyword != null && !keyword.isEmpty()) {
+		    	list = videoService.findByTitleAndManagerId(keyword, managerId);
+			} 
+			// mặc định lấy tất cả Video thuộc Category của Manager
+			else {
+				list = videoService.findByManagerId(managerId);
+			}
 			
 			req.setAttribute("videos", list);
 			req.getRequestDispatcher("/views/admin/video-list.jsp").forward(req, resp);

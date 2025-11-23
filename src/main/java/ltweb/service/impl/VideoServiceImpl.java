@@ -49,4 +49,14 @@ public class VideoServiceImpl implements VideoService {
 	public List<Video> findByTitleAndCategoryId(String title, int categoryId) {
 	    return videoRepo.findByTitleAndCategoryId(title, categoryId);
 	}
+	
+	@Override
+	public List<Video> findByManagerId(int managerId) {
+	    return videoRepo.findByManagerId(managerId);
+	}
+
+	@Override
+	public List<Video> findByTitleAndManagerId(String title, int managerId) {
+	    return videoRepo.findByTitleAndManagerId(title, managerId);
+	}
 }

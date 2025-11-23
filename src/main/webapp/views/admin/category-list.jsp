@@ -17,11 +17,17 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-primary">Category Management</h2>
         
-        <c:if test="${sessionScope.account.roleid == 3 || sessionScope.account.roleid == 2}">
-            <a href="${pageContext.request.contextPath}${rolePrefix}/category/add" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add New Category
+        <div>
+            <a href="${pageContext.request.contextPath}${rolePrefix}/home" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-arrow-left"></i> Back to Home
             </a>
-        </c:if>
+
+            <c:if test="${sessionScope.account.roleid == 3 || sessionScope.account.roleid == 2}">
+                <a href="${pageContext.request.contextPath}${rolePrefix}/category/add" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Category
+                </a>
+            </c:if>
+        </div>
     </div>
 
     <div class="card shadow-sm">

@@ -27,6 +27,22 @@
                 </div>
             </div>
         </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 border-warning dashboard-card">
+                <div class="card-body text-center p-4 d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="fas fa-video fa-4x text-warning"></i>
+                    </div>
+                    <h4 class="card-title text-warning">Video Management</h4>
+                    <p class="card-text text-muted">Manage your videos.</p>
+                    
+                    <a href="${pageContext.request.contextPath}/manager/video" class="btn btn-outline-warning mt-auto">
+                        <i class="fas fa-arrow-right me-1"></i> Access
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div class="col-md-4">
             <div class="card shadow-sm h-100 border-success dashboard-card">

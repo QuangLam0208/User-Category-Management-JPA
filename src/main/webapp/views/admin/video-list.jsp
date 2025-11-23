@@ -23,8 +23,12 @@
 
     <div class="row mb-3 align-items-center">
         <div class="col-md-6 d-flex">
+            <a href="${pageContext.request.contextPath}${rolePrefix}/home" class="btn btn-outline-primary me-2">
+                <i class="fas fa-home"></i> Home
+            </a>
+
             <a href="${pageContext.request.contextPath}${rolePrefix}/category" class="btn btn-outline-secondary me-2">
-                <i class="fas fa-arrow-left"></i> Back to Categories
+                <i class="fas fa-arrow-left"></i> Categories
             </a>
             
             <c:url var="addUrl" value="${rolePrefix}/video/add">
@@ -34,7 +38,7 @@
             </c:url>
             
             <a href="${addUrl}" class="btn btn-success">
-                <i class="fas fa-plus"></i> Add New Video
+                <i class="fas fa-plus"></i> Add New
             </a>
         </div>
         

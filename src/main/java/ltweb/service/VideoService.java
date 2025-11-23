@@ -22,4 +22,8 @@ public interface VideoService {
 
 	List<Video> findByTitleAndCategoryId(String title, int categoryId);
 
+	List<Video> findByTitleAndManagerId(String title, int managerId);
+
+	List<Video> findByManagerId(int managerId);
+
 }
