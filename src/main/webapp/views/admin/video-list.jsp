@@ -16,7 +16,7 @@
 
     <div class="row mb-3 align-items-center">
         <div class="col-md-6 d-flex">
-            <a href="${pageContext.request.contextPath}/admin/category/list" class="btn btn-outline-secondary me-2">
+            <a href="${pageContext.request.contextPath}/admin/category" class="btn btn-outline-secondary me-2">
                 <i class="fas fa-arrow-left"></i> Back to Categories
             </a>
             
