@@ -87,4 +87,16 @@ public class VideoRepositoryImpl implements VideoRepository {
         query.setParameter("cateId", categoryId);
         return query.getResultList();
     }
+    
+    @Override
+    public List<Video> findByTitleAndCategoryId(String title, int categoryId) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        String jpql = "SELECT v FROM Video v WHERE v.title LIKE :title AND v.category.id = :cateId";
+        
+        TypedQuery<Video> query = enma.createQuery(jpql, Video.class);
+        query.setParameter("title", "%" + title + "%");
+        query.setParameter("cateId", categoryId);
+        
+        return query.getResultList();
+    }
 }

@@ -18,5 +18,7 @@ public interface VideoRepository {
 	void update(Video video);
 
 	void insert(Video video);
+
+	List<Video> findByTitleAndCategoryId(String title, int categoryId);
     
 }

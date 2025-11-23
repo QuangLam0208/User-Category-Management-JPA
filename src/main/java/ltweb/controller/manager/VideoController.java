@@ -82,21 +82,41 @@ public class VideoController extends HttpServlet {
 			
 			List<Video> list;
 			
-			// Chỉ ép kiểu khi chuỗi khác null và không rỗng
-			if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
-				try {
-					int cateId = Integer.parseInt(categoryIdStr);
-					list = videoService.findByCategoryId(cateId);
-					Category cate = categoryService.findById(cateId);
-					req.setAttribute("selectedCategory", cate);
-				} catch (NumberFormatException e) {
-					list = videoService.findAll();
-				}
-			} else if (keyword != null && !keyword.isEmpty()) {
-				list = videoService.findByTitle(keyword);
-			} else {
-				list = videoService.findAll();
-			}
+			// Kiểm tra xem có đang lọc theo Category không
+		    if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
+		        try {
+		            int cateId = Integer.parseInt(categoryIdStr);
+		            
+		            // Lấy thông tin Category để hiển thị tiêu đề
+		            Category cate = categoryService.findById(cateId);
+		            req.setAttribute("selectedCategory", cate);
+		            
+		            // có từ khóa -> tìm trong category đó
+		            if (keyword != null && !keyword.isEmpty()) {
+		                list = videoService.findByTitleAndCategoryId(keyword, cateId);
+		            } 
+		            // ko có từ khóa -> lấy hết video của category đó
+		            else {
+		                list = videoService.findByCategoryId(cateId);
+		            }
+		            
+		        } catch (NumberFormatException e) {
+		            // id lỗi -> tìm kiếm toàn cục
+		            if (keyword != null && !keyword.isEmpty()) {
+		                list = videoService.findByTitle(keyword);
+		            } else {
+		                list = videoService.findAll();
+		            }
+		        }
+		    } 
+		    // ko lọc category -> tìm kiếm toàn cục
+		    else {
+		        if (keyword != null && !keyword.isEmpty()) {
+		            list = videoService.findByTitle(keyword);
+		        } else {
+		            list = videoService.findAll();
+		        }
+		    }
 			
 			req.setAttribute("videos", list);
 			req.getRequestDispatcher("/views/admin/video-list.jsp").forward(req, resp);

@@ -1,6 +1,7 @@
 package ltweb.controller.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -26,26 +27,44 @@ public class VideoController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cateIdStr = req.getParameter("categoryId");
+		String keyword = req.getParameter("keyword");
 		
-		if (cateIdStr != null) {
-			try {
+		List<Video> list = new ArrayList<>();
+		Category category = null;
+		
+		try {
+			// có categoryid (Vào từ trang Home hoặc tìm kiếm trong Category)
+			if (cateIdStr != null && !cateIdStr.isEmpty()) {
 				int cateId = Integer.parseInt(cateIdStr);
+				category = categoryService.findById(cateId);
 				
-				// 1. Lấy danh sách video của Category này
-				List<Video> list = videoService.findByCategoryId(cateId);
-				
-				// 2. Lấy thông tin Category để hiện tiêu đề
-				Category category = categoryService.findById(cateId);
-				
-				req.setAttribute("videos", list);
-				req.setAttribute("category", category);
-				
-				req.getRequestDispatcher("/views/user/video-list.jsp").forward(req, resp);
-				
-			} catch (NumberFormatException e) {
+				if (keyword != null && !keyword.isEmpty()) {
+					// tìm trong Category cụ thể
+					list = videoService.findByTitleAndCategoryId(keyword, cateId);
+				} else {
+					// lấy tất cả video của Category
+					list = videoService.findByCategoryId(cateId);
+				}
+			} 
+			// chỉ có Keyword (tìm kiếm từ Header)
+			else if (keyword != null && !keyword.isEmpty()) {
+				list = videoService.findByTitle(keyword);
+			} 
+			// ko có gì -> Home
+			else {
 				resp.sendRedirect(req.getContextPath() + "/user/home");
+				return;
 			}
-		} else {
+			
+			// đẩy dữ liệu ra View
+			req.setAttribute("videos", list);
+			req.setAttribute("category", category); 
+			req.setAttribute("searchKeyword", keyword); 
+			
+			req.getRequestDispatcher("/views/user/video-list.jsp").forward(req, resp);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 			resp.sendRedirect(req.getContextPath() + "/user/home");
 		}
 	}

@@ -54,7 +54,25 @@
 
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h2 style="font-family: serif; letter-spacing: 2px;">${category.name}</h2>
+        <h2 style="font-family: 'Times New Roman', serif; letter-spacing: 2px; font-size: 2.5rem;">
+            <c:choose>
+                <%-- đang xem một Category cụ thể --%>
+                <c:when test="${not empty category}">
+                    ${category.name}
+                </c:when>
+                
+                <%-- đang tìm kiếm toàn cục (từ Header) --%>
+                <c:when test="${not empty param.keyword}">
+                    Search Result: "<span class="text-primary">${param.keyword}</span>"
+                </c:when>
+                
+                <%-- Trường hợp khác --%>
+                <c:otherwise>
+                    All Videos
+                </c:otherwise>
+            </c:choose>
+        </h2>
+        
         <a href="${pageContext.request.contextPath}/user/home" class="text-secondary text-decoration-none small">
             <i class="fas fa-arrow-left"></i> Back to Collections
         </a>
