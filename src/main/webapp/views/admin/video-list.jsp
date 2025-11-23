@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %> 
+
+<c:choose>
+    <c:when test="${sessionScope.account.roleid == 3}"><c:set var="rolePrefix" value="/admin"/></c:when>
+    <c:when test="${sessionScope.account.roleid == 2}"><c:set var="rolePrefix" value="/manager"/></c:when>
+    <c:otherwise><c:set var="rolePrefix" value="/user"/></c:otherwise>
+</c:choose>
 
 <div class="container mt-4">
     
@@ -10,23 +17,29 @@
             <span>
                 Current Category: <strong>${selectedCategory.name}</strong>
             </span>
-            <a href="${pageContext.request.contextPath}/admin/video" class="btn-close" aria-label="Close" title="View All Videos"></a>
+            <a href="${pageContext.request.contextPath}${rolePrefix}/video" class="btn-close" aria-label="Close" title="View All Videos"></a>
         </div>
     </c:if>
 
     <div class="row mb-3 align-items-center">
         <div class="col-md-6 d-flex">
-            <a href="${pageContext.request.contextPath}/admin/category" class="btn btn-outline-secondary me-2">
+            <a href="${pageContext.request.contextPath}${rolePrefix}/category" class="btn btn-outline-secondary me-2">
                 <i class="fas fa-arrow-left"></i> Back to Categories
             </a>
             
-            <a href="${pageContext.request.contextPath}/admin/video/add" class="btn btn-success">
+            <c:url var="addUrl" value="${rolePrefix}/video/add">
+                <c:if test="${not empty selectedCategory}">
+                    <c:param name="categoryId" value="${selectedCategory.id}"/>
+                </c:if>
+            </c:url>
+            
+            <a href="${addUrl}" class="btn btn-success">
                 <i class="fas fa-plus"></i> Add New Video
             </a>
         </div>
         
         <div class="col-md-6">
-            <form action="${pageContext.request.contextPath}/admin/video" method="get" class="d-flex justify-content-end">
+            <form action="${pageContext.request.contextPath}${rolePrefix}/video" method="get" class="d-flex justify-content-end">
                 <c:if test="${not empty selectedCategory}">
                     <input type="hidden" name="categoryId" value="${selectedCategory.id}">
                 </c:if>
@@ -64,7 +77,8 @@
                             <td class="text-center fw-bold">${v.id}</td>
                             <td class="text-center">
                                 <c:if test="${not empty v.poster}">
-                                    <c:url value="/image?fname=${v.poster}" var="imgUrl"/>
+                                    <c:set var="posterPath" value="${fn:replace(v.poster, '\\\\', '/')}" />
+                                    <c:url value="/image?fname=${posterPath}" var="imgUrl"/>
                                     <img src="${imgUrl}" class="rounded border shadow-sm" width="100" height="60" style="object-fit:cover">
                                 </c:if>
                                 <c:if test="${empty v.poster}">
@@ -97,11 +111,18 @@
                                     <i class="fas fa-play"></i>
                                 </a>
                 
-                                <a href="${pageContext.request.contextPath}/admin/video/edit?id=${v.id}" class="btn btn-warning btn-sm me-1 text-white" title="Chỉnh sửa">
+                                <c:url var="editUrl" value="${rolePrefix}/video/edit">
+                                    <c:param name="id" value="${v.id}"/>
+                                    <c:if test="${not empty selectedCategory}">
+                                        <c:param name="categoryId" value="${selectedCategory.id}"/>
+                                    </c:if>
+                                </c:url>
+
+                                <a href="${editUrl}" class="btn btn-warning btn-sm me-1 text-white" title="Chỉnh sửa">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 
-                                <a href="${pageContext.request.contextPath}/admin/video/delete?id=${v.id}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa video: ${v.title}?')" title="Xóa">
+                                <a href="${pageContext.request.contextPath}${rolePrefix}/video/delete?id=${v.id}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa video: ${v.title}?')" title="Xóa">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>

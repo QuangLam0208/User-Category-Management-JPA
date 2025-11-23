@@ -24,28 +24,27 @@ import ltweb.util.Constant;
 public class VideoController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
 	VideoService videoService = new VideoServiceImpl();
 	CategoryService categoryService = new CategoryServiceImpl();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String url = req.getRequestURI().toString();
-		
+		String url = req.getRequestURI();
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+
 		if (url.contains("video/add")) {
-			
 			req.setAttribute("categories", categoryService.findAll());
 			req.getRequestDispatcher("/views/admin/video-add.jsp").forward(req, resp);
 			
 		} else if (url.contains("video/edit")) {
-			
 			int id = Integer.parseInt(req.getParameter("id"));
-			req.setAttribute("video", videoService.findById(id));
+			Video video = videoService.findById(id);
+			req.setAttribute("video", video);
 			req.setAttribute("categories", categoryService.findAll());
 			req.getRequestDispatcher("/views/admin/video-edit.jsp").forward(req, resp);
 			
 		} else if (url.contains("video/delete")) {
-			
 			try {
 				int id = Integer.parseInt(req.getParameter("id"));
 				videoService.delete(id);
@@ -56,7 +55,6 @@ public class VideoController extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/manager/video");
 			
 		} else {
-			
 			String categoryIdStr = req.getParameter("categoryId");
 			String keyword = req.getParameter("keyword");
 			
@@ -67,60 +65,59 @@ public class VideoController extends HttpServlet {
 				list = videoService.findByCategoryId(cateId);
 				Category cate = categoryService.findById(cateId);
 				req.setAttribute("selectedCategory", cate);
-			} else if ((keyword != null || !keyword.isEmpty())) {
+				
+			} else if (keyword != null && !keyword.isEmpty()) { // <--- ĐÃ SỬA: Thêm check null ở đây
 				list = videoService.findByTitle(keyword);
 			} else {
 				list = videoService.findAll();
 			}
 			
 			req.setAttribute("videos", list);
-			req.getRequestDispatcher("/views/admin/video-list.jsp").forward(req, resp);
 			
+			req.getRequestDispatcher("/views/admin/video-list.jsp").forward(req, resp);
 		}
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		String url = req.getRequestURI().toString();
-		
+		String url = req.getRequestURI();
+
 		if (url.contains("video/add")) {
 			insertVideo(req, resp);
 		} else if (url.contains("video/edit")) {
 			updateVideo(req, resp);
 		}
 	}
-	
+
 	private void insertVideo(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		try {
 			String title = req.getParameter("title");
 			String description = req.getParameter("description");
 			int active = Integer.parseInt(req.getParameter("active"));
 			int categoryId = Integer.parseInt(req.getParameter("categoryId"));
-			
+
 			Video video = new Video();
 			video.setTitle(title);
 			video.setDescription(description);
 			video.setActive(active);
 			video.setViews(0);
+			
 			Category cate = categoryService.findById(categoryId);
 			video.setCategory(cate);
-			
-			
-			Part filePart = req.getPart("poster");
-			if (filePart != null && filePart.getSize() > 0) {
-				String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+
+			Part part = req.getPart("poster");
+			if (part.getSize() > 0) {
+				String filename = System.currentTimeMillis() + "_" + part.getSubmittedFileName();
 				String uploadPath = Constant.DIR + File.separator + "video";
 				File uploadDir = new File(uploadPath);
-				if (!uploadDir.exists()) {
-					uploadDir.mkdirs();
-				}
-				filePart.write(uploadPath + File.separator + fileName);
-				video.setPoster("video/" + fileName);
+				if (!uploadDir.exists()) uploadDir.mkdirs();
+				part.write(uploadPath + File.separator + filename);
+				video.setPoster("video/" + filename);
 			} else {
-				video.setPoster("video/default.png");
+				video.setPoster("video/default.jpg");
 			}
-			
+
 			videoService.insert(video);
 			resp.sendRedirect(req.getContextPath() + "/manager/video");
 		} catch (Exception e) {
@@ -132,35 +129,27 @@ public class VideoController extends HttpServlet {
 	private void updateVideo(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		try {
 			int id = Integer.parseInt(req.getParameter("id"));
-			String title = req.getParameter("title");
-			String description = req.getParameter("description");
-			int active = Integer.parseInt(req.getParameter("active"));
-			int categoryId = Integer.parseInt(req.getParameter("categoryId"));
-			
 			Video video = videoService.findById(id);
-			video.setTitle(title);
-			video.setDescription(description);
-			video.setActive(active);
+			
+			video.setTitle(req.getParameter("title"));
+			video.setDescription(req.getParameter("description"));
+			video.setActive(Integer.parseInt(req.getParameter("active")));
+			
+			int categoryId = Integer.parseInt(req.getParameter("categoryId"));
 			Category cate = categoryService.findById(categoryId);
 			video.setCategory(cate);
 			
-			Part filePart = req.getPart("poster");
-			if (filePart != null && filePart.getSize() > 0) {
-				String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
-				String uploadPath = Constant.DIR + File.separator + "video";
-				File uploadDir = new File(uploadPath);
-				if (!uploadDir.exists()) {
-					uploadDir.mkdirs();
-				}
-				filePart.write(uploadPath + File.separator + fileName);
-				video.setPoster("video/" + fileName);
+			Part part = req.getPart("poster");
+			if (part.getSize() > 0) {
+				 String filename = System.currentTimeMillis() + "_" + part.getSubmittedFileName();
+				 String uploadPath = Constant.DIR + File.separator + "video";
+				 part.write(uploadPath + File.separator + filename);
+				 video.setPoster("video/" + filename);
 			}
 			
 			videoService.update(video);
 			resp.sendRedirect(req.getContextPath() + "/manager/video");
-		} catch (Exception e) {
-			e.printStackTrace();
-			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
+			
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 }
