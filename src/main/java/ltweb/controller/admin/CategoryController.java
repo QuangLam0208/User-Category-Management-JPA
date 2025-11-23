@@ -19,7 +19,7 @@ import ltweb.service.CategoryService;
 import ltweb.service.impl.CategoryServiceImpl;
 import ltweb.util.Constant;
 
-@WebServlet(urlPatterns = { "/admin/category/list", "/admin/category/add", "/admin/category/edit", "/admin/category/delete" })
+@WebServlet(urlPatterns = { "/admin/category", "/admin/category/add", "/admin/category/edit", "/admin/category/delete" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
 public class CategoryController extends HttpServlet {
 	
@@ -48,7 +48,7 @@ public class CategoryController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			resp.sendRedirect(req.getContextPath() + "/admin/category/list");
+			resp.sendRedirect(req.getContextPath() + "/admin/category");
 			
 		} else {
 			List<Category> list = categoryService.findAll();
@@ -110,7 +110,7 @@ public class CategoryController extends HttpServlet {
             category.setUser(user); // Gán User hiện tại là người tạo
 			
 			categoryService.insert(category);
-			resp.sendRedirect(req.getContextPath() + "/admin/category/list");
+			resp.sendRedirect(req.getContextPath() + "/admin/category");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class CategoryController extends HttpServlet {
 			}
 			
 			categoryService.update(category);
-			resp.sendRedirect(req.getContextPath() + "/admin/category/list");
+			resp.sendRedirect(req.getContextPath() + "/admin/category");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

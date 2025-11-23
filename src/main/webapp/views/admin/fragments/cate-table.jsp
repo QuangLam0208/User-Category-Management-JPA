@@ -3,25 +3,26 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <c:if test="${empty listToRender}">
-    <div class="p-4 text-center text-muted">No categories found.</div>
+    <div class="p-4 text-center text-muted">No data available.</div>
 </c:if>
 
 <c:if test="${not empty listToRender}">
     <table class="table table-striped table-hover mb-0 align-middle">
-        <thead class="table-dark">
+        <thead class="table-dark text-center">
             <tr>
-                <th>No.</th>
+                <th>ID</th>
                 <th>Image</th>
-                <th>Category Name</th>
-                <th>Author</th> <th>Status</th>
-                <th class="text-center">Action</th>
+                <th>Name</th>
+                <th>Creator</th>
+                <th>Status</th>
+                <th>Act</th>
             </tr>
         </thead>
         <tbody>
             <c:forEach items="${listToRender}" var="cate" varStatus="STT">
                 <tr>
-                    <td>${STT.index + 1}</td>
-                    <td>
+                    <td class="text-center">${cate.id}</td>
+                    <td class="text-center">
                         <c:if test="${not empty cate.images}">
                             <c:set var="imagePath" value="${fn:replace(cate.images, '\\\\', '/')}" />
                             <c:url value="/image?fname=${imagePath}" var="imgUrl"></c:url>
@@ -32,9 +33,9 @@
                     </td>
                     <td class="fw-bold">${cate.name}</td>
                     
-                    <td><small class="text-muted">${cate.user.fullname}</small></td>
+                    <td class="text-center"><small class="text-muted">${cate.user.fullname}</small></td>
                     
-                    <td>
+                    <td class="text-center">
                         <span class="badge bg-${cate.active == 1 ? 'success' : 'secondary'}">
                             ${cate.active == 1 ? 'Active' : 'Inactive'}
                         </span>
@@ -46,10 +47,10 @@
                             <i class="fas fa-video"></i>
                         </a>
 
-                        <c:set var="isAdmin" value="${sessionScope.account.roleid == 3}" />
+                        <c:set var="roleId" value="${sessionScope.account.roleid}" />
                         <c:set var="isOwner" value="${cate.user.id == sessionScope.account.id}" />
 
-                        <c:if test="${isAdmin or isOwner}">
+                        <c:if test="${roleId == 3 or (roleId == 2 and isOwner)}">
                             <a href="${pageContext.request.contextPath}${rolePrefix}/category/edit?id=${cate.id}" 
                                class="btn btn-warning btn-sm me-1">
                                 <i class="fas fa-edit"></i>
@@ -57,14 +58,14 @@
 
                             <a href="${pageContext.request.contextPath}${rolePrefix}/category/delete?id=${cate.id}" 
                                class="btn btn-danger btn-sm" 
-                               onclick="return confirm('Are you sure you want to delete this category?')">
+                               onclick="return confirm('Are you sure?')">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </c:if>
                         
-                        <c:if test="${!isAdmin and !isOwner}">
-                            <button class="btn btn-outline-secondary btn-sm" disabled title="View Only">
-                                <i class="fas fa-eye"></i>
+                        <c:if test="${roleId == 1 or (roleId == 2 and !isOwner)}">
+                            <button class="btn btn-secondary btn-sm" disabled title="View Only">
+                                <i class="fas fa-lock"></i>
                             </button>
                         </c:if>
                     </td>

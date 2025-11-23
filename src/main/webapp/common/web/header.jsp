@@ -13,7 +13,7 @@
                 </li>
                 <c:if test="${not empty sessionScope.account}">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/user/category/list">Category</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/user/category">Category</a>
                     </li>
                 </c:if>
             </ul>
