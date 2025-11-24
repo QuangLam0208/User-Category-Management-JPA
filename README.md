@@ -8,6 +8,8 @@ Một ứng dụng web quản lý danh mục và video được xây dựng trê
 ![Database](https://img.shields.io/badge/Database-SQL%20Server-lightgrey)
 ![Frontend](https://img.shields.io/badge/Frontend-Bootstrap%205-purple)
 
+![Just a fun gif](https://media.giphy.com/media/PiQejEf31116URju4V/giphy.gif)
+
 ## 🌟 Tính năng chính
 
 ### 1. Phân quyền (Role-Based Access Control)
