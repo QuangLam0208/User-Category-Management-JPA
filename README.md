@@ -111,14 +111,45 @@ src/main/webapp
 
 ## 🖼️ Screenshots
 
-### 1. Giao diện User (Home - Gallery Style)
-![User Home](https://via.placeholder.com/800x400?text=User+Gallery+Interface)
+### 1. Giao diện User
+#### Trang Home
+![User Home](https://drive.google.com/uc?export=view&id=1smqtJrZZdh0yuf8G1gBR-1a2K4zr-iuA)
 
-### 2. Giao diện Admin/Manager (Dashboard)
-![Admin Dashboard](https://via.placeholder.com/800x400?text=Admin+Dashboard)
+#### Side Bar
+![Bar](https://drive.google.com/uc?export=view&id=1sHVhiGy33MEBoGQZ75a2iGBmW2NiCyp4)
 
-### 3. Quản lý Video (Có lọc và tìm kiếm)
-![Video Management](https://via.placeholder.com/800x400?text=Video+List)
+#### Tìm kiếm video theo tiêu đề
+![Find Video](https://drive.google.com/uc?export=view&id=1HkPz8Jv9KuOE-eAHatJFNLOcbVsMPwjV)
+![Find Video](https://drive.google.com/uc?export=view&id=1xFpcUD3Daor2TracNVF9bsfa5QapmCEx)
+
+#### Update Profile
+![Profile](https://drive.google.com/uc?export=view&id=1iSeAgycrLEnWVRnRWLoM7_6q0hl4mMiy)
+
+### 2. Giao diện Admin
+#### Dashboard
+![Dashboard](https://drive.google.com/uc?export=view&id=17bijmGJGJGtqjezG3iTl9bA0IAsDdvFd)
+
+#### Category Management
+![Category Management](https://drive.google.com/uc?export=view&id=1pYoeknIr__M3dFoiXi-fA1IA1zGCrf00)
+
+#### Video Management
+![Video Management](https://drive.google.com/uc?export=view&id=1ouSCjIkxnUs8q-N4GfOycCvMUYrKDhCx)
+
+#### Update Profile
+![Profile](https://drive.google.com/uc?export=view&id=1bMWKuwib5COAc8y3pOmYL2ogNWuCtC5R)
+
+### 3. Giao diện Manager
+#### Dashboard
+![Dashboard](https://drive.google.com/uc?export=view&id=1Bvdwbn-LHx6PUA0vA84mqiZ2XvGeQmet)
+
+#### Category Management
+![Category Management](https://drive.google.com/uc?export=view&id=1Vyg1LzPhrVPV-0SAcZk97dJD4_nTZZNj)
+
+#### Video Management
+![Video Management](https://drive.google.com/uc?export=view&id=1BMlR85rrlybKIqH9JEN_sZGyMC_Y0M-c)
+
+#### Update Profile
+![Profile](https://drive.google.com/uc?export=view&id=1sPfMeArtbIkaHiVa48K_uOn0tuPIwsNa)
 
 ---
 © 2025 Developed by QangLam - FIT HCMUTE
